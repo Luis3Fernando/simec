@@ -16,7 +16,7 @@ simec-backend/
 ├── app/
 │   ├── domain/                               # Modelos puros y puertos abstractos (ABC)
 │   │   ├── models/
-│   │   │   └── provider.py                    # RnpValidity, Shareholder, AwardRecord, AuditResult, ProviderProfile, ProviderReport
+│   │   │   └── provider.py                    # RnpValidity, Shareholder, AwardRecord, TaxpayerDetails, AuditResult, ProviderProfile, ProviderReport
 │   │   └── ports/
 │   │       ├── inbound/                      # Interfaces de casos de uso (GetProviderPort)
 │   │       └── outbound/                     # Contratos de extractores (ExtractorPort)
@@ -26,7 +26,9 @@ simec-backend/
 │   │   ├── inbound/
 │   │   │   └── api/v1/                       # Routers y endpoints de FastAPI (GET /api/v1/providers/{tax_id})
 │   │   └── outbound/
-│   │       └── extractors/                   # Conectores HTTP/CDA a fuentes públicas (osce/seace_cda_adapter.py)
+│   │       └── extractors/                   # Conectores HTTP/CDA a fuentes públicas
+│   │           ├── osce/seace_cda_adapter.py             # SeaceCdaAdapter (SEACE Pentaho CDA)
+│   │           └── taxpayer/apis_net_pe_adapter.py       # ApisNetPeAdapter (apis.net.pe)
 │   ├── core/                                 # Configuración y dependencias (get_provider_use_case)
 │   └── main.py                               # Entrada FastAPI (rutas bajo /api/v1)
 ├── notebooks/                                # Laboratorio exploratorio aislado
@@ -46,6 +48,14 @@ simec-backend/
   - `QUERY_R_F3`: Vigencias de inscripción en el Registro Nacional de Proveedores (RNP).
   - `QUERY_R_F5_D_DASH_PROV_RESUMEN`: Historial de órdenes de compra y adjudicaciones.
 - **Transformación:** Mapear la matriz `metadata` + `resultset` a diccionarios canónicos tipados.
+
+### apis.net.pe (datos tributarios y de identidad)
+- **Base:** `https://api.apis.net.pe/v1`
+- **Método:** `GET` con `numero` como query param. Headers: `User-Agent` de navegador, `Accept: application/json`, `Referer: https://apis.net.pe/`.
+- **Endpoints:** `/dni` (8 dígitos) y `/ruc` (11 dígitos).
+- **Timeout:** 15 s. Las respuestas 404 y 422 se auditan como `NO_DATA`; cualquier otra falla como `ERROR`.
+- **Transformación:** Mapear el JSON a `TaxpayerDetails`, expuesto en `ProviderProfile.taxpayer_details`.
+- **Contrato del extractor:** `{"audit", "taxpayer_details", "raw"}`.
 
 ---
 

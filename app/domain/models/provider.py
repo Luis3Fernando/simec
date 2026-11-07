@@ -53,11 +53,29 @@ class AuditResult:
 
 
 @dataclass(frozen=True, slots=True)
+class TaxpayerDetails:
+    document_type: str
+    document_number: str
+    legal_name: str
+    tax_status: str | None = None
+    tax_condition: str | None = None
+    fiscal_address: str | None = None
+    ubigeo: str | None = None
+    department: str | None = None
+    province: str | None = None
+    district: str | None = None
+    first_surname: str | None = None
+    second_surname: str | None = None
+    given_names: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class ProviderProfile:
     tax_id: str
     validities: tuple[RnpValidity, ...] = ()
     shareholders: tuple[Shareholder, ...] = ()
     awards: tuple[AwardRecord, ...] = ()
+    taxpayer_details: TaxpayerDetails | None = None
 
 
 @dataclass(frozen=True, slots=True)
