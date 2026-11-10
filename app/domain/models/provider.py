@@ -83,6 +83,7 @@ class SunatProfile:
     economic_activities: list[str] = field(default_factory=list)
     electronic_issuance: str | None = None
     legal_representatives: list[dict[str, Any]] = field(default_factory=list)
+    branch_offices: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)

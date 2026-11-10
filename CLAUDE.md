@@ -60,11 +60,13 @@ simec-backend/
 
 ### SUNAT Consulta RUC (scraping con Playwright)
 - **URL:** `https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaWeb.jsp`
-- **Herramientas:** `playwright.async_api` (Chromium headless) + `BeautifulSoup`. Requiere `playwright install chromium`.
-- **Flujo:** Digitar el RUC, buscar, parsear la ficha (tipo de contribuyente, fechas, estado, condición, domicilio fiscal, actividades económicas, emisión electrónica) y, si existe el botón, los representantes legales.
+- **Herramientas:** `playwright.async_api` + `BeautifulSoup`. Usa el navegador instalado (Chrome, luego Edge, luego Chromium de Playwright), viewport 1366x768, locale `es-PE`, `--disable-blink-features=AutomationControlled` y `navigator.webdriver` oculto (técnica del notebook, autorizada por el responsable del proyecto) para pasar la verificación de Cloudflare.
+- **Flujo:** Digitar el RUC en `#txtRuc`, buscar con `#btnAceptar` y parsear la ficha desde los `.list-group-item .row`. Representantes legales y establecimientos anexos se obtienen interceptando `HTMLFormElement.prototype.submit` al pulsar cada botón y repitiendo el POST con `fetch` (respuesta decodificada en `iso-8859-1`), sin recargar la página.
+- **Limitación:** Si SUNAT igual muestra la verificación de Cloudflare, la ficha se devuelve y la incidencia queda en `details` de la auditoría.
 - **Alcance:** Solo RUC de 11 dígitos. Cualquier otro parámetro retorna `NO_DATA` sin abrir el navegador.
-- **Timeout:** 15 s por selector. El navegador se cierra siempre en un bloque `finally`.
-- **Contrato del extractor:** `{"audit", "sunat_profile"}`, expuesto en `ProviderProfile.sunat_profile`.
+- **Timeouts:** 30 s para navegación y por selector. El navegador se cierra siempre en un bloque `finally`.
+- **Windows:** Playwright exige `ProactorEventLoop`; si el bucle activo no lo es (p. ej. `uvicorn --reload`), el scraping corre en un hilo con su propio bucle.
+- **Contrato del extractor:** `{"audit", "sunat_profile"}`, expuesto en `ProviderProfile.sunat_profile` (incluye `legal_representatives` y `branch_offices`).
 
 ---
 
