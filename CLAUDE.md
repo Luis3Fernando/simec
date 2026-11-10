@@ -16,7 +16,7 @@ simec-backend/
 ├── app/
 │   ├── domain/                               # Modelos puros y puertos abstractos (ABC)
 │   │   ├── models/
-│   │   │   └── provider.py                    # RnpValidity, Shareholder, AwardRecord, TaxpayerDetails, AuditResult, ProviderProfile, ProviderReport
+│   │   │   └── provider.py                    # RnpValidity, Shareholder, AwardRecord, TaxpayerDetails, SunatProfile, AuditResult, ProviderProfile, ProviderReport
 │   │   └── ports/
 │   │       ├── inbound/                      # Interfaces de casos de uso (GetProviderPort)
 │   │       └── outbound/                     # Contratos de extractores (ExtractorPort)
@@ -28,7 +28,8 @@ simec-backend/
 │   │   └── outbound/
 │   │       └── extractors/                   # Conectores HTTP/CDA a fuentes públicas
 │   │           ├── osce/seace_cda_adapter.py             # SeaceCdaAdapter (SEACE Pentaho CDA)
-│   │           └── taxpayer/apis_net_pe_adapter.py       # ApisNetPeAdapter (apis.net.pe)
+│   │           ├── taxpayer/apis_net_pe_adapter.py       # ApisNetPeAdapter (apis.net.pe)
+│   │           └── sunat/sunat_scraper_adapter.py        # SunatScraperAdapter (SUNAT, Playwright)
 │   ├── core/                                 # Configuración y dependencias (get_provider_use_case)
 │   └── main.py                               # Entrada FastAPI (rutas bajo /api/v1)
 ├── notebooks/                                # Laboratorio exploratorio aislado
@@ -56,6 +57,14 @@ simec-backend/
 - **Timeout:** 15 s. Las respuestas 404 y 422 se auditan como `NO_DATA`; cualquier otra falla como `ERROR`.
 - **Transformación:** Mapear el JSON a `TaxpayerDetails`, expuesto en `ProviderProfile.taxpayer_details`.
 - **Contrato del extractor:** `{"audit", "taxpayer_details", "raw"}`.
+
+### SUNAT Consulta RUC (scraping con Playwright)
+- **URL:** `https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaWeb.jsp`
+- **Herramientas:** `playwright.async_api` (Chromium headless) + `BeautifulSoup`. Requiere `playwright install chromium`.
+- **Flujo:** Digitar el RUC, buscar, parsear la ficha (tipo de contribuyente, fechas, estado, condición, domicilio fiscal, actividades económicas, emisión electrónica) y, si existe el botón, los representantes legales.
+- **Alcance:** Solo RUC de 11 dígitos. Cualquier otro parámetro retorna `NO_DATA` sin abrir el navegador.
+- **Timeout:** 15 s por selector. El navegador se cierra siempre en un bloque `finally`.
+- **Contrato del extractor:** `{"audit", "sunat_profile"}`, expuesto en `ProviderProfile.sunat_profile`.
 
 ---
 

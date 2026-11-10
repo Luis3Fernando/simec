@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import Enum
+from typing import Any
 
 
 class ValidityStatus(str, Enum):
@@ -70,12 +71,28 @@ class TaxpayerDetails:
 
 
 @dataclass(frozen=True, slots=True)
+class SunatProfile:
+    tax_id: str
+    taxpayer_type: str | None = None
+    commercial_name: str | None = None
+    registration_date: str | None = None
+    activity_start_date: str | None = None
+    status: str | None = None
+    condition: str | None = None
+    fiscal_address: str | None = None
+    economic_activities: list[str] = field(default_factory=list)
+    electronic_issuance: str | None = None
+    legal_representatives: list[dict[str, Any]] = field(default_factory=list)
+
+
+@dataclass(frozen=True, slots=True)
 class ProviderProfile:
     tax_id: str
     validities: tuple[RnpValidity, ...] = ()
     shareholders: tuple[Shareholder, ...] = ()
     awards: tuple[AwardRecord, ...] = ()
     taxpayer_details: TaxpayerDetails | None = None
+    sunat_profile: SunatProfile | None = None
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,19 +1,27 @@
 import asyncio
 import time
 from datetime import datetime, timezone
-from typing import Any, Final
+from typing import Any, Final, NamedTuple
 
 from app.domain.models.provider import (
     AuditResult,
     AuditStatus,
     ProviderProfile,
     ProviderReport,
+    SunatProfile,
     TaxpayerDetails,
 )
 from app.domain.ports.inbound.get_provider_port import GetProviderPort
 from app.domain.ports.outbound.extractor_port import ExtractorPort
 
-DEFAULT_TIMEOUT_S: Final = 30.0
+DEFAULT_TIMEOUT_S: Final = 120.0
+
+
+class Extraction(NamedTuple):
+    audit: AuditResult
+    profile: ProviderProfile | None
+    taxpayer_details: TaxpayerDetails | None
+    sunat_profile: SunatProfile | None
 
 
 class GetProviderUseCase(GetProviderPort):
@@ -34,14 +42,13 @@ class GetProviderUseCase(GetProviderPort):
         )
         duration_ms = int((time.perf_counter() - started) * 1000)
 
-        profiles: list[ProviderProfile] = []
-        details: list[TaxpayerDetails] = []
+        extractions: list[Extraction] = []
         audit_entries: list[AuditResult] = []
         for extractor, response in zip(self._extractors, responses):
             try:
                 if isinstance(response, BaseException):
                     raise response
-                audit, profile, taxpayer = self._unpack(response)
+                extraction = self._unpack(response)
             except Exception as exc:
                 audit_entries.append(
                     AuditResult(
@@ -54,40 +61,56 @@ class GetProviderUseCase(GetProviderPort):
                     )
                 )
                 continue
-            audit_entries.append(audit)
-            if profile is not None:
-                profiles.append(profile)
-            if taxpayer is not None:
-                details.append(taxpayer)
+            audit_entries.append(extraction.audit)
+            extractions.append(extraction)
 
         return ProviderReport(
-            profile=self._merge(tax_id, profiles, details),
+            profile=self._merge(tax_id, extractions),
             audit_entries=tuple(audit_entries),
         )
 
     @staticmethod
-    def _unpack(
-        response: dict[str, Any],
-    ) -> tuple[AuditResult, ProviderProfile | None, TaxpayerDetails | None]:
-        audit = response.get("audit")
-        profile = response.get("profile")
-        taxpayer = response.get("taxpayer_details")
-        if (
-            not isinstance(audit, AuditResult)
-            or not (profile is None or isinstance(profile, ProviderProfile))
-            or not (taxpayer is None or isinstance(taxpayer, TaxpayerDetails))
+    def _unpack(response: dict[str, Any]) -> Extraction:
+        extraction = Extraction(
+            audit=response.get("audit"),
+            profile=response.get("profile"),
+            taxpayer_details=response.get("taxpayer_details"),
+            sunat_profile=response.get("sunat_profile"),
+        )
+        expected: tuple[tuple[Any, type], ...] = (
+            (extraction.profile, ProviderProfile),
+            (extraction.taxpayer_details, TaxpayerDetails),
+            (extraction.sunat_profile, SunatProfile),
+        )
+        if not isinstance(extraction.audit, AuditResult) or any(
+            value is not None and not isinstance(value, kind) for value, kind in expected
         ):
-            raise ValueError("Extractor response has invalid 'audit', 'profile' or 'taxpayer_details'")
-        return audit, profile, taxpayer
+            raise ValueError("Extractor response has invalid 'audit' or profile payloads")
+        return extraction
 
     @staticmethod
-    def _merge(
-        tax_id: str,
-        profiles: list[ProviderProfile],
-        details: list[TaxpayerDetails],
-    ) -> ProviderProfile:
+    def _merge(tax_id: str, extractions: list[Extraction]) -> ProviderProfile:
+        profiles = [e.profile for e in extractions if e.profile is not None]
         taxpayer = next(
-            (d for d in (*details, *(p.taxpayer_details for p in profiles)) if d is not None),
+            (
+                d
+                for d in (
+                    *(e.taxpayer_details for e in extractions),
+                    *(p.taxpayer_details for p in profiles),
+                )
+                if d is not None
+            ),
+            None,
+        )
+        sunat = next(
+            (
+                s
+                for s in (
+                    *(e.sunat_profile for e in extractions),
+                    *(p.sunat_profile for p in profiles),
+                )
+                if s is not None
+            ),
             None,
         )
         return ProviderProfile(
@@ -96,4 +119,5 @@ class GetProviderUseCase(GetProviderPort):
             shareholders=tuple(s for p in profiles for s in p.shareholders),
             awards=tuple(a for p in profiles for a in p.awards),
             taxpayer_details=taxpayer,
+            sunat_profile=sunat,
         )
