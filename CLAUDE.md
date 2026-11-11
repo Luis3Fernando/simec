@@ -24,7 +24,7 @@ simec-backend/
 │   │   └── use_cases/                        # GetProviderUseCase (orquesta con asyncio.gather)
 │   ├── adapters/
 │   │   ├── inbound/
-│   │   │   └── api/v1/                       # Routers y endpoints de FastAPI (GET /api/v1/providers/{tax_id})
+│   │   │   └── api/v1/                       # Routers, endpoints y schemas OpenAPI (GET /api/v1/providers/{tax_id}; Swagger en /docs)
 │   │   └── outbound/
 │   │       └── extractors/                   # Conectores HTTP/CDA a fuentes públicas
 │   │           ├── osce/seace_cda_adapter.py             # SeaceCdaAdapter (SEACE Pentaho CDA)
