@@ -12,3 +12,35 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+
+# Secrets and sensitive files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+secrets/
+credentials*.json
+service-account*.json
+*.secret
+*.secrets
+.netrc
+.pypirc
+
+# Local data and artifacts
+*.sqlite
+*.sqlite3
+*.db
+*.log
+logs/
+data/
+*.har
+storage_state.json
+.claude/settings.local.json
