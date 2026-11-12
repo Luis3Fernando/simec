@@ -1,0 +1,1 @@
+"""RNP (solo RUC)."""

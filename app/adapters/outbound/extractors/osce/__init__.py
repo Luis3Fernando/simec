@@ -1,1 +1,0 @@
-"""Extractores OSCE/SEACE."""
