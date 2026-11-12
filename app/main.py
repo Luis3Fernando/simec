@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.adapters.inbound.controller.v1.router import api_router
-from app.adapters.inbound.docs.openapi import API_METADATA
+from app.infrastructure.inbound.controller.v1.router import api_router
+from app.infrastructure.inbound.docs.openapi import API_METADATA
 
 app = FastAPI(**API_METADATA)
 

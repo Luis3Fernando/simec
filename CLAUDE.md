@@ -6,7 +6,8 @@ Backend de alta disponibilidad en FastAPI para el monitoreo de mercados y conduc
 ## 2. Patrón de Arquitectura
 - **Arquitectura Hexagonal estricta (Puertos y Adaptadores)**.
 - **Aislamiento de Dominio:** `app/domain/` solo contiene entidades y no debe importar librerías externas, ni FastAPI, ni HTTPX, ni ORMs.
-- **Extractores desacoplados:** Cada fuente externa es un adaptador en `app/adapters/outbound/extractors/` que implementa `ExtractorPort` (`app/application/port/out/`).
+- **Infraestructura:** `app/infrastructure/` contiene los adaptadores: `inbound/` (HTTP) y `outbound/` (fuentes externas).
+- **Extractores desacoplados:** Cada fuente externa es un adaptador en `app/infrastructure/outbound/extractors/` que implementa `ExtractorPort` (`app/application/port/out/`).
 - **Casos de Uso:** Cada caso de uso es una interfaz en `app/application/port/usecase/` (nombre `*_use_case.py`, método `execute(command) -> result`) y su implementación vive en `app/application/services/` (`*_service.py`). Reciben `Command` y devuelven `Result` (`app/application/dto/`). Los puertos de salida están en `app/application/port/out/`. Todo lo que no sea un caso de uso va fuera de su carpeta.
 - **Fase actual:** Modo puente/agregador sin base de datos. Se procesan y normalizan los payloads devolviendo JSON estructurado con metadatos de auditoría.
 
@@ -29,7 +30,7 @@ simec-backend/
 │   │   │   ├── usecase/                      # Puertos de entrada: GetCompanyUseCase, GetPersonUseCase (execute)
 │   │   │   └── out/                          # Puertos de salida: ExtractorPort
 │   │   └── services/                         # Implementan los casos de uso: GetCompanyService, GetPersonService (+ source_runner.py)
-│   ├── adapters/
+│   ├── infrastructure/
 │   │   ├── inbound/                          # Adaptador HTTP (FastAPI)
 │   │   │   ├── controller/v1/                # company_controller.py (GET /api/v1/companies/{ruc}), person_controller.py (GET /api/v1/persons/{dni}), router.py
 │   │   │   ├── dto/
@@ -94,7 +95,7 @@ simec-backend/
 
 ## 5. Reglas de Código para Claude
 
-- **Documentación OpenAPI en español latino:** Descripciones, resúmenes y ejemplos de Swagger en español; los nombres de campos, rutas y esquemas en inglés. Todo vive en `adapters/inbound/docs/` y en los `Field(description=...)` de `dto/response/`.
+- **Documentación OpenAPI en español latino:** Descripciones, resúmenes y ejemplos de Swagger en español; los nombres de campos, rutas y esquemas en inglés. Todo vive en `infrastructure/inbound/docs/` y en los `Field(description=...)` de `dto/response/`.
 
 - **Nomenclatura en inglés:** Archivos, carpetas, clases, funciones, variables y modelos en inglés técnico. Cero mezcla de idiomas (los nombres de columnas de las fuentes externas se conservan solo al mapearlas).
 
