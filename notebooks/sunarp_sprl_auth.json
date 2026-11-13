@@ -1,0 +1,120 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "6EA44BA08D8C6D36DEBC5767223721E3",
+      "domain": "im01-autorizacion-sprl-production.apps.paas.sunarp.gob.pe",
+      "path": "/v1/sunarp-services/im/autorizacion",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1159889970.1794599670",
+      "domain": ".sunarp.gob.pe",
+      "path": "/",
+      "expires": 1829159670.38719,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "89c834e13f8e0f3275d54b8fd39e7d35",
+      "value": "0c9f2194247e2a481198ccf90038b699",
+      "domain": "im01-autorizacion-sprl-production.apps.paas.sunarp.gob.pe",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_C4XX4CF718",
+      "value": "GS2.1.s1794599670$o1$g1$t1794599823$j46$l0$h0",
+      "domain": ".sunarp.gob.pe",
+      "path": "/",
+      "expires": 1829159823.950983,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://sprl.sunarp.gob.pe",
+      "localStorage": [
+        {
+          "name": "perfilId",
+          "value": "20"
+        },
+        {
+          "name": "lineaPrePago",
+          "value": "2485419"
+        },
+        {
+          "name": "codOrg",
+          "value": ""
+        },
+        {
+          "name": "exonPago",
+          "value": "false"
+        },
+        {
+          "name": "cadContrasena",
+          "value": "undefined"
+        },
+        {
+          "name": "nombreUser",
+          "value": "LUIS FERNANDO CHUMBES RAMOS"
+        },
+        {
+          "name": "sunarp-sesion-id",
+          "value": "40d302fe-2d66-4aef-a58f-b1e15586b10c-d4b370f8-0a3c-4d0e-a871-098462a3a563"
+        },
+        {
+          "name": "contadorLogueo",
+          "value": "1"
+        },
+        {
+          "name": "fgInterno",
+          "value": "false"
+        },
+        {
+          "name": "menu",
+          "value": "[{\"level\":1,\"title\":\"\",\"icon\":\"\",\"color\":\"\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Pasarela de pagos\",\"icon\":\"arrow-right\",\"url\":\"/main/pasarela-pago\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Recargar Saldo\",\"icon\":\"arrow-right\",\"url\":\"/main/recargar-saldo\",\"selected\":false,\"disabled\":false}],\"orden\":0},{\"level\":1,\"title\":\"TRÁMITE DE PUBLICIDAD REGISTRAL\",\"icon\":\"Icono-Tram-Publici-Reg-\",\"color\":\"rgb(142, 195, 33)\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Solicitar publicidad certificada (vigencias, CRI, etc)\",\"icon\":\"arrow-right\",\"url\":\"/main/sp-certificada\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Solicitar base gráfica registral (BGR)\",\"icon\":\"arrow-right\",\"url\":\"/main/solicitar-base-grafica-registral\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Copia Informativa de Titulo Archivado\",\"icon\":\"arrow-right\",\"url\":\"/main/solicita-ta\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Solicitar certificado literal de partida(copia literal)\",\"icon\":\"arrow-right\",\"url\":\"/main/certificado-literal\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Servicios del índice de verificadores (inscripción, actualización y cambio de voluntario de credencial)\",\"icon\":\"arrow-right\",\"url\":\"/main/verificadores\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Solicitar Boleta Informativa de Vehículo\",\"icon\":\"arrow-right\",\"url\":\"/main/solicitar-boleta-vehiculo\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Certificado literal de título archivado / Visualizar\",\"icon\":\"arrow-right\",\"url\":\"/main/ver-titulo-archivado\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Búsqueda de índice\",\"icon\":\"arrow-right\",\"url\":\"/main/busqueda-nombre-titular\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Consulta en el índice nacional de sucesión intestada / de testamento\",\"icon\":\"arrow-right\",\"url\":\"/main/consulta-sucesion-intestada\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Consulta en el índice nacional del registro personal\",\"icon\":\"arrow-right\",\"url\":\"/main/consulta-indice-personal\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Consulta en el índice nacional de personas jurídicas\",\"icon\":\"arrow-right\",\"url\":\"/main/consulta-indice-pj\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Visualización e impresión de partida\",\"icon\":\"arrow-right\",\"url\":\"/main/partidas-base-grafica-registral\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Consulta el índice nacional de registro de mandatos y poderes\",\"icon\":\"arrow-right\",\"url\":\"/main/consulta-mandatos-y-poderes\",\"selected\":false,\"disabled\":false}],\"orden\":3},{\"level\":1,\"title\":\"TRÁMITE DE INSCRIPCION DE TÍTULOS\",\"icon\":\"Icono-inscTrami-\",\"color\":\"rgb(0, 165, 165)\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Consulta de solicitud de inscripción en línea\",\"icon\":\"arrow-right\",\"url\":\"/main/consulta-solic-inscr-linea\",\"selected\":false,\"disabled\":false}],\"orden\":4},{\"level\":1,\"title\":\"SEGUIMIENTO DE TRÁMITES\",\"icon\":\"Icono-seguimi-\",\"color\":\"rgb(255, 175, 0)\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Consulta el estado de la solicitud de publicidad\",\"icon\":\"arrow-right\",\"url\":\"/main/estado-solicitud-pub\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Consulta de estado de titulos para pago de liquidación\",\"icon\":\"arrow-right\",\"url\":\"/main/estado-titulo-pag-liq\",\"selected\":false,\"disabled\":false}],\"orden\":5},{\"level\":1,\"title\":\"PREPAGAR\",\"icon\":\"Icono-Prepagar-\",\"color\":\"rgb(142, 195, 33)\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Recarga de saldo\",\"icon\":\"arrow-right\",\"url\":\"/main/forma-pago\",\"selected\":false,\"disabled\":false}],\"orden\":7},{\"level\":1,\"title\":\"DATOS PERSONALES\",\"icon\":\"Icono-Datos-Pers-\",\"color\":\"rgb(50, 60, 55)\",\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Editar Datos Personales\",\"icon\":\"arrow-right\",\"url\":\"/main/datos-personales-editar\",\"selected\":false,\"disabled\":false}],\"orden\":9},{\"level\":1,\"title\":\"REPORTES\",\"icon\":null,\"color\":null,\"open\":true,\"selected\":false,\"disabled\":false,\"children\":[{\"level\":2,\"title\":\"Reporte de trámites realizados\",\"icon\":\"arrow-right\",\"url\":\"/main/tramites-realizados\",\"selected\":false,\"disabled\":false},{\"level\":2,\"title\":\"Reporte de recarga de saldo\",\"icon\":\"arrow-right\",\"url\":\"/main/recarga-saldos\",\"selected\":false,\"disabled\":false}],\"orden\":12}]"
+        },
+        {
+          "name": "cuentaId",
+          "value": "10974199"
+        },
+        {
+          "name": "userId",
+          "value": "MYUSER123"
+        },
+        {
+          "name": "saldoAux",
+          "value": "0"
+        },
+        {
+          "name": "perfilUser",
+          "value": "INDIVIDUAL EXTERNO"
+        },
+        {
+          "name": "sunarp-refresh-id",
+          "value": "7defb11d-fb9e-43cf-9a30-7d92484b2ef3-3d952aeb-de63-4335-908a-661ed641a92f-e30061a5-7b58-4f77-b386-d0bb51b37143"
+        }
+      ]
+    },
+    {
+      "origin": "https://challenges.cloudflare.com",
+      "localStorage": [
+        {
+          "name": "cf.turnstile.u",
+          "value": "CtQUYoJLPai-oe6Ow5I7jUniUwIUMqR-8gnCVAaRIRSNu47DseQ5x_H2YzGF93c6qKjrs_RrwhOjGV4tAJyOcUF3iS0igm_3tDq3HpYiJA"
+        }
+      ]
+    }
+  ]
+}
